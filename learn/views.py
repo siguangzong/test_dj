@@ -7,6 +7,7 @@ from django.views import generic
 from django.contrib.auth.models import User, Group
 from rest_framework import viewsets
 from learn.serializer import UserSerializer, GroupSerializer, BookSerializer
+import django_redis
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -50,3 +51,12 @@ class BookViewSet(viewsets.ModelViewSet):
     """
     queryset = Book.objects.all()
     serializer_class = BookSerializer
+
+
+def test_redis(request):
+    # 建立连接
+    conn = django_redis.get_redis_connection("default")
+    print(conn)
+    # 开始设置数据
+    conn.set('wml', "333", ex=10)
+    return HttpResponse("redis config is ok 111222")

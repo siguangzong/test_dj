@@ -66,8 +66,8 @@ REST_FRAMEWORK = {
 }
 
 MIDDLEWARE = [
-    'middleware.middleware.MiddleWare1',
-    'middleware.middleware.MiddleWare2',
+    # 'middleware.middleware.MiddleWare1',
+    # 'middleware.middleware.MiddleWare2',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -94,6 +94,25 @@ TEMPLATES = [
         },
     },
 ]
+
+
+# 缓存数据库设置
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        # 定义django中redis的位置
+        "LOCATION": "redis://127.0.0.1:6379/6",
+        "OPTIONS": {
+            # django使用redis的默认客户端来进行操作.
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    }
+}
+# # 1. 我们定义一个cache(本地缓存来存储信息,cahe指定的是redis)
+SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+# # 2. 指定本地的session使用的本地缓存名称是'default'
+SESSION_CACHE_ALIAS = "default"
+
 
 WSGI_APPLICATION = 'my_learn.wsgi.application'
 
